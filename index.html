@@ -48,8 +48,8 @@ a{color:inherit}
 :focus-visible{outline:2px solid var(--oro);outline-offset:3px}
 
 /* ============ SOBRE ============ */
-.envelope-screen{position:fixed;inset:0;background:linear-gradient(rgba(237,242,247,0.25),rgba(237,242,247,0.45)),url('dora-miranda.jpg') center 20% / cover no-repeat;.envelope-screen.hidden{display:none}
-
+.envelope-screen{position:fixed;inset:0;background:linear-gradient(rgba(237,242,247,0.25),rgba(237,242,247,0.45)),url('dora-miranda.jpg') center 20% / cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;transition:opacity .7s ease,transform .7s ease;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px))}
+.envelope-screen.hiding{opacity:0;transform:scale(1.03);pointer-events:none}
 .envelope-wrap{width:100%;max-width:370px;cursor:pointer;filter:drop-shadow(0 22px 44px rgba(47,74,102,0.28));border-radius:18px;overflow:hidden;transition:transform .3s;position:relative;z-index:2;background:none;border:none;text-align:inherit;font:inherit;color:inherit;display:block}
 .envelope-wrap:hover{transform:translateY(-3px)}
 .envelope-frame{padding:16px 14px 26px;border:1px solid rgba(47,74,102,0.25);border-radius:18px 18px 0 0;border-bottom:none;position:relative;background:rgba(255,255,255,0.72)}
