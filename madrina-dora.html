@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dora, ¿quieres ser mi madrina?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cielo:#8FAFCB;      /* azul bautismal */
+  --cielo-osc:#2F4A66;  /* azul profundo */
+  --cielo-med:#5E7FA0;
+  --cielo-suave:#E8F0F7;
+  --oro:#C8A762;
+  --oro-claro:#EFE3C2;
+  --oro-linea:#D2BD8E;
+  --papel:#F8FAFC;
+  --blanco:#FFFFFF;
+  --texto:#233548;
+  --texto2:#5B6E82;
+  --borde:#DDE6EF;
+  --fondo-pagina:#EDF2F7;
+  --sombra:rgba(47,74,102,0.22);
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Jost','Helvetica Neue',Arial,sans-serif;
+  --script:'Pinyon Script','Snell Roundhand','Apple Chancery',cursive;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papel:#16212D;--blanco:#1B2836;--texto:#E6EDF4;--texto2:#A9B8C7;
+    --borde:#2C3C4E;--fondo-pagina:#0F1822;--cielo-suave:#1F3042;--sombra:rgba(0,0,0,0.5);
+    --cielo-med:#9DB8D2;
+  }
+}
+:root[data-theme="dark"]{
+  --papel:#16212D;--blanco:#1B2836;--texto:#E6EDF4;--texto2:#A9B8C7;
+  --borde:#2C3C4E;--fondo-pagina:#0F1822;--cielo-suave:#1F3042;--sombra:rgba(0,0,0,0.5);
+  --cielo-med:#9DB8D2;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);overflow-x:hidden}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+img,svg{max-width:100%}
+body{background:var(--fondo-pagina);font-family:var(--sans);color:var(--texto);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
+
+/* ============ SOBRE ============ */
+.envelope-screen{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,#FFFFFF 0%,#E3ECF5 70%,#D4E2EF 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;transition:opacity .7s ease,transform .7s ease;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px))}
+.envelope-screen.hiding{opacity:0;transform:scale(1.03);pointer-events:none}
+.envelope-screen.hidden{display:none}
+
+.envelope-wrap{width:100%;max-width:370px;cursor:pointer;filter:drop-shadow(0 22px 44px rgba(47,74,102,0.28));border-radius:18px;overflow:hidden;transition:transform .3s;position:relative;z-index:2;background:none;border:none;text-align:inherit;font:inherit;color:inherit;display:block}
+.envelope-wrap:hover{transform:translateY(-3px)}
+.envelope-frame{padding:16px 14px 26px;border:1px solid rgba(47,74,102,0.25);border-radius:18px 18px 0 0;border-bottom:none;position:relative;background:rgba(255,255,255,0.72)}
+.envelope-frame::before{content:'';position:absolute;inset:8px;border:1px solid rgba(200,167,98,0.4);border-radius:12px;pointer-events:none}
+.env-corner{position:absolute;width:74px;height:74px;pointer-events:none}
+.env-corner.tl{top:6px;left:6px}
+.env-corner.tr{top:6px;right:6px;transform:scaleX(-1)}
+.env-corner.bl{bottom:6px;left:6px;transform:scaleY(-1)}
+.env-corner.br{bottom:6px;right:6px;transform:rotate(180deg)}
+
+.envelope-inner{padding:26px 20px 6px;text-align:center;position:relative;z-index:2}
+.env-eyebrow{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--cielo-osc)}
+.env-monogram{margin:16px auto 14px;width:132px;height:132px}
+.env-name{font-family:var(--script);font-size:62px;color:var(--cielo-osc);line-height:1;font-weight:400}
+.env-subtitle{font-family:var(--serif);font-style:italic;font-size:16px;color:#5B6E82;margin-top:10px;line-height:1.5}
+
+.env-date-block{margin:20px 0 22px;display:flex;align-items:center;justify-content:center;gap:16px;color:#2F4A66}
+.env-date-side{font-family:var(--sans);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:6px 0;border-top:1px solid #D2BD8E;border-bottom:1px solid #D2BD8E;min-width:82px}
+.env-date-num{font-family:var(--serif);font-size:56px;font-weight:300;line-height:1}
+
+.env-open-btn{display:inline-flex;align-items:center;gap:10px;background:#2F4A66;color:#F8FAFC;font-family:var(--sans);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:13px 28px;border-radius:30px;transition:background .25s}
+.envelope-wrap:hover .env-open-btn{background:#5E7FA0}
+
+.ticket-bottom{background:#FFFFFF;border-radius:0 0 18px 18px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid rgba(47,74,102,0.25);border-top:1px dashed #D2BD8E}
+.ticket-dot{width:6px;height:6px;background:#C8A762;transform:rotate(45deg);flex-shrink:0}
+.ticket-info{text-align:center;flex:1}
+.ticket-name{font-family:var(--serif);font-size:17px;font-style:italic;color:#233548}
+.ticket-msg{font-family:var(--sans);font-size:10px;letter-spacing:1.5px;color:#5B6E82;margin-top:3px}
+.ticket-cupos{font-family:var(--sans);font-size:10px;letter-spacing:1.5px;color:#2F4A66;margin-top:3px;display:none;font-weight:500}
+
+/* partículas */
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.particle{position:absolute;top:-30px;opacity:0;animation:fall linear infinite}
+@keyframes fall{
+  0%{transform:translate(0,0) rotate(0);opacity:0}
+  10%{opacity:.8}
+  50%{transform:translate(18px,55vh) rotate(90deg)}
+  90%{opacity:.6}
+  100%{transform:translate(-14px,112vh) rotate(180deg);opacity:0}
+}
+
+/* ============ INVITACIÓN ============ */
+.invitation{display:none;min-height:100%;padding:40px 16px;justify-content:center}
+.invitation.visible{display:flex}
+.card{max-width:480px;width:100%;background:var(--papel);position:relative;overflow:hidden;box-shadow:0 24px 70px var(--sombra);border-radius:4px;animation:rise .9s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+.hero{background:linear-gradient(170deg,#2F4A66 0%,#48688A 50%,#7E9FBE 100%);padding:60px 32px 70px;text-align:center;position:relative;overflow:hidden;color:#fff}
+.hero::after{content:'';position:absolute;left:-10%;right:-10%;bottom:-1px;height:54px;background:var(--papel);border-radius:50% 50% 0 0 / 100% 100% 0 0}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 18%,rgba(255,255,255,0.28) 0%,transparent 55%)}
+.hero-rays{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:420px;height:300px;opacity:.18}
+.hero > *{position:relative;z-index:2}
+.hero-dove{width:74px;height:60px;margin:0 auto 18px;display:block}
+.hero-kicker{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--oro-claro)}
+.hero-name{font-family:var(--script);font-size:92px;line-height:1.05;margin:6px 0 4px;text-shadow:0 2px 24px rgba(0,0,0,0.18);font-weight:400}
+.hero-sac{font-family:var(--sans);font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.85)}
+.hero-date{margin-top:22px;display:inline-flex;align-items:center;gap:14px;font-family:var(--serif);font-size:22px;color:#fff}
+.hero-date::before,.hero-date::after{content:'';width:34px;height:1px;background:var(--oro-linea)}
+
+.section{padding:38px 40px;position:relative;border-bottom:1px solid var(--borde);background:var(--blanco)}
+.section.alt{background:var(--papel)}
+.section-title{font-family:var(--serif);font-size:28px;font-style:italic;font-weight:400;color:var(--cielo-osc);text-align:center;margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:14px}
+.section-title::before,.section-title::after{content:'';width:22px;height:1px;background:var(--oro-linea)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .section-title{color:var(--oro-claro)}}
+:root[data-theme="dark"] .section-title{color:var(--oro-claro)}
+
+.mensaje{text-align:center;padding:14px 40px 42px;background:var(--papel);border-bottom:1px solid var(--borde)}
+.mensaje-body{font-family:var(--serif);font-size:19px;line-height:1.8;color:var(--texto);max-width:36ch;margin:0 auto}
+.padres{margin-top:24px}
+.padres-label{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--texto2)}
+.padres-names{font-family:var(--serif);font-size:22px;color:var(--texto);margin-top:4px;font-weight:500}
+
+.verse{text-align:center;padding:36px 40px;background:var(--cielo-suave);border-bottom:1px solid var(--borde)}
+.verse p{font-family:var(--script);font-size:32px;line-height:1.35;color:var(--cielo-osc)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verse p{color:var(--oro-claro)}}
+:root[data-theme="dark"] .verse p{color:var(--oro-claro)}
+.verse cite{display:block;margin-top:12px;font-family:var(--serif);font-style:normal;font-size:14px;letter-spacing:2px;color:var(--texto2)}
+
+/* programa */
+.programa{position:relative;padding-left:34px}
+.programa::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--oro-linea),var(--cielo),var(--oro-linea))}
+.prog-item{position:relative;padding:0 0 26px}
+.prog-item:last-child{padding-bottom:0}
+.prog-dot{position:absolute;left:-34px;top:3px;width:23px;height:23px;border-radius:50%;background:var(--blanco);border:1px solid var(--oro);display:flex;align-items:center;justify-content:center}
+.prog-dot span{width:7px;height:7px;border-radius:50%;background:var(--cielo-osc)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .prog-dot span{background:var(--oro)}}
+:root[data-theme="dark"] .prog-dot span{background:var(--oro)}
+.prog-hora{font-family:var(--sans);font-size:13px;letter-spacing:1px;color:var(--cielo-med);font-weight:500}
+.prog-titulo{font-family:var(--serif);font-size:22px;color:var(--texto);margin-top:2px}
+.prog-lugar{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--texto2);margin-top:2px;line-height:1.45}
+.map-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--sans);font-size:12px;letter-spacing:1px;color:var(--cielo-osc);text-decoration:none;border:1px solid var(--oro-linea);padding:7px 14px;border-radius:20px;transition:background .2s}
+.map-link:hover{background:var(--cielo-suave)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .map-link{color:var(--oro-claro)}}
+:root[data-theme="dark"] .map-link{color:var(--oro-claro)}
+
+/* padrinos */
+.padrinos{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;text-align:center}
+.padrino-role{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--texto2)}
+.padrino-name{font-family:var(--serif);font-size:21px;color:var(--texto);line-height:1.25;margin-top:4px}
+.padrinos-amp{font-family:var(--script);font-size:44px;color:var(--oro)}
+.padrinos-note{font-family:var(--serif);font-size:17px;line-height:1.7;color:var(--texto);text-align:center;margin-top:22px}
+
+/* vestimenta */
+.dress-box{border:1px solid var(--oro-linea);padding:18px 16px;text-align:center;border-radius:2px;margin-bottom:18px}
+.dress-name{font-family:var(--serif);font-size:26px;font-style:italic;color:var(--cielo-osc)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dress-name{color:var(--oro-claro)}}
+:root[data-theme="dark"] .dress-name{color:var(--oro-claro)}
+.dress-text{font-family:var(--serif);font-size:17px;line-height:1.7;color:var(--texto);text-align:center}
+.swatches{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--sans);font-size:11px;color:var(--texto2)}
+.swatch i{width:30px;height:30px;border-radius:50%;border:1px solid var(--borde);display:block}
+
+/* regalos */
+.regalos{text-align:center}
+.regalos p{font-family:var(--serif);font-size:17px;line-height:1.7;color:var(--texto);max-width:34ch;margin:0 auto}
+.regalos svg{margin-top:18px}
+
+/* info */
+.info-list{display:flex;flex-direction:column;gap:18px}
+.info-item{display:flex;gap:14px;align-items:flex-start}
+.info-icon{width:36px;height:36px;min-width:36px;border-radius:50%;background:var(--cielo-suave);display:flex;align-items:center;justify-content:center;border:1px solid var(--oro-linea)}
+.info-title{font-family:var(--serif);font-size:19px;color:var(--texto);font-weight:500}
+.info-text{font-family:var(--serif);font-size:16px;color:var(--texto2);line-height:1.6;margin-top:2px}
+.info-text a{color:var(--cielo-med);font-weight:500;text-decoration:none}
+
+/* countdown */
+.countdown{display:flex;justify-content:center}
+.cd-box{text-align:center;padding:0 16px;position:relative}
+.cd-box:not(:last-child)::after{content:'';position:absolute;right:0;top:8px;bottom:8px;width:1px;background:var(--oro-linea)}
+.cd-num{font-family:var(--serif);font-size:42px;font-weight:400;color:var(--cielo-osc);line-height:1;display:block;font-variant-numeric:tabular-nums}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cd-num{color:var(--oro-claro)}}
+:root[data-theme="dark"] .cd-num{color:var(--oro-claro)}
+.cd-lbl{font-family:var(--sans);font-size:12px;color:var(--texto2);display:block;margin-top:6px}
+
+/* rsvp */
+.rsvp{text-align:center}
+.deadline{font-family:var(--serif);font-size:17px;color:var(--texto2);margin-bottom:20px}
+.deadline strong{display:block;font-size:22px;color:var(--texto);font-weight:500;margin-top:2px}
+.rsvp-btn{display:inline-flex;align-items:center;gap:10px;background:var(--cielo-osc);color:#fff;font-family:var(--sans);font-size:12px;letter-spacing:3px;text-transform:uppercase;padding:15px 34px;border-radius:30px;text-decoration:none;transition:background .25s;border:1px solid var(--oro-linea)}
+.rsvp-btn:hover{background:var(--cielo-med)}
+.rsvp-close{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--texto2);margin-top:24px;line-height:1.6}
+
+.footer{background:#2F4A66;padding:34px 32px;text-align:center;color:#fff}
+.footer-name{font-family:var(--script);font-size:54px;line-height:1;color:var(--oro-claro)}
+.footer-sub{font-family:var(--sans);font-size:11px;letter-spacing:4px;color:rgba(239,227,194,0.6);margin-top:10px}
+
+@media (max-width:600px){
+  .invitation{padding:0}
+  .card{box-shadow:none;border-radius:0}
+  .section{padding:32px 22px}
+  .mensaje{padding:10px 24px 36px}
+  .verse{padding:30px 24px}
+  .hero{padding:48px 20px 64px}
+  .hero-name{font-size:76px}
+  .cd-box{padding:0 10px}
+  .cd-num{font-size:32px}
+  .padrino-name{font-size:18px}
+}
+@media (max-height:720px){
+  .env-monogram{width:96px;height:96px;margin:10px auto}
+  .env-name{font-size:50px}
+  .env-date-block{margin:12px 0 14px}
+  .env-date-num{font-size:44px}
+  .envelope-inner{padding:18px 16px 4px}
+}
+@media (prefers-reduced-motion: reduce){
+  .particle{display:none}
+  .card,.envelope-screen{animation:none;transition:none}
+}
+
+/* ===== madrina ===== */
+.env-for{font-family:var(--sans);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#5B6E82;margin-top:4px}
+.env-name.madrina{font-size:54px;margin-top:6px}
+.env-from{font-family:var(--serif);font-style:italic;font-size:16px;color:#5B6E82;margin:10px 0 22px}
+.hero-question{font-family:var(--script);font-size:66px;line-height:1.08;margin:8px 0 6px;font-weight:400;text-shadow:0 2px 24px rgba(0,0,0,0.18)}
+.hero-to{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--oro-claro)}
+.hero-sign{font-family:var(--serif);font-size:15px;letter-spacing:2px;color:rgba(255,255,255,0.8);margin-top:14px}
+.carta{padding:14px 40px 40px;background:var(--papel);border-bottom:1px solid var(--borde)}
+.carta p{font-family:var(--serif);font-size:19px;line-height:1.8;color:var(--texto);margin-bottom:14px}
+.carta .saludo{font-family:var(--script);font-size:38px;color:var(--cielo-osc);margin-bottom:6px;line-height:1.2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .carta .saludo{color:var(--oro-claro)}}
+:root[data-theme="dark"] .carta .saludo{color:var(--oro-claro)}
+.carta .firma{font-family:var(--script);font-size:40px;color:var(--oro);text-align:right;margin:4px 0 0}
+.respuesta{text-align:center;background:var(--cielo-suave)}
+.respuesta .pregunta{font-family:var(--serif);font-size:22px;color:var(--texto);margin-bottom:22px}
+.btns{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;position:relative;min-height:56px}
+.btn-si{background:var(--cielo-osc);color:#fff;border:1px solid var(--oro-linea);font-family:var(--sans);font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:15px 34px;border-radius:30px;cursor:pointer;transition:transform .2s,background .2s}
+.btn-si:hover{background:var(--cielo-med);transform:scale(1.04)}
+.btn-no{background:transparent;color:var(--texto2);border:1px solid var(--borde);font-family:var(--sans);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:12px 22px;border-radius:30px;cursor:pointer;transition:transform .35s ease}
+.aceptado{display:none;animation:rise .7s ease both}
+.aceptado.show{display:block}
+.aceptado .gracias{font-family:var(--script);font-size:48px;color:var(--cielo-osc);line-height:1.1}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .aceptado .gracias{color:var(--oro-claro)}}
+:root[data-theme="dark"] .aceptado .gracias{color:var(--oro-claro)}
+.aceptado p{font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--texto);margin:10px auto 20px;max-width:32ch}
+.roles{display:flex;flex-direction:column;gap:16px}
+.rol{display:flex;gap:14px;align-items:flex-start}
+.rol-icon{width:40px;height:40px;min-width:40px;border-radius:50%;background:var(--cielo-suave);border:1px solid var(--oro-linea);display:flex;align-items:center;justify-content:center}
+.rol-title{font-family:var(--serif);font-size:20px;color:var(--texto);font-weight:500}
+.rol-text{font-family:var(--serif);font-size:16px;color:var(--texto2);line-height:1.55;margin-top:2px}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:1500;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:8px;height:12px;border-radius:2px;animation:conf 2.8s ease-in forwards}
+@keyframes conf{to{transform:translate(var(--dx),110vh) rotate(720deg);opacity:.2}}
+@media (max-width:600px){.carta{padding:10px 24px 34px}.hero-question{font-size:54px}}
+</style>
+</head>
+<body>
+
+<!-- ============ SOBRE ============ -->
+<div class="envelope-screen" id="envelopeScreen">
+  <div class="particles" id="particles" aria-hidden="true"></div>
+  <button type="button" class="envelope-wrap" onclick="openEnvelope()" aria-label="Abrir la carta">
+    <div class="envelope-frame">
+      <svg class="env-corner tl" viewBox="0 0 74 74" fill="none" aria-hidden="true"><path d="M6 68 C10 40 26 20 60 8" stroke="#C8A762" stroke-width="1"/><ellipse cx="18" cy="44" rx="6" ry="2.4" transform="rotate(-55 18 44)" fill="#D2BD8E"/><ellipse cx="27" cy="31" rx="6" ry="2.4" transform="rotate(-40 27 31)" fill="#D2BD8E"/><ellipse cx="39" cy="20" rx="6" ry="2.4" transform="rotate(-28 39 20)" fill="#D2BD8E"/><ellipse cx="13" cy="36" rx="5" ry="2" transform="rotate(-100 13 36)" fill="#C8A762" opacity=".7"/><ellipse cx="31" cy="21" rx="5" ry="2" transform="rotate(-80 31 21)" fill="#C8A762" opacity=".7"/></svg>
+      <svg class="env-corner tr" viewBox="0 0 74 74" fill="none" aria-hidden="true"><path d="M6 68 C10 40 26 20 60 8" stroke="#C8A762" stroke-width="1"/><ellipse cx="18" cy="44" rx="6" ry="2.4" transform="rotate(-55 18 44)" fill="#D2BD8E"/><ellipse cx="27" cy="31" rx="6" ry="2.4" transform="rotate(-40 27 31)" fill="#D2BD8E"/><ellipse cx="39" cy="20" rx="6" ry="2.4" transform="rotate(-28 39 20)" fill="#D2BD8E"/></svg>
+      <svg class="env-corner bl" viewBox="0 0 74 74" fill="none" aria-hidden="true"><path d="M6 68 C10 40 26 20 60 8" stroke="#C8A762" stroke-width="1"/><ellipse cx="18" cy="44" rx="6" ry="2.4" transform="rotate(-55 18 44)" fill="#D2BD8E"/><ellipse cx="27" cy="31" rx="6" ry="2.4" transform="rotate(-40 27 31)" fill="#D2BD8E"/><ellipse cx="39" cy="20" rx="6" ry="2.4" transform="rotate(-28 39 20)" fill="#D2BD8E"/></svg>
+      <svg class="env-corner br" viewBox="0 0 74 74" fill="none" aria-hidden="true"><path d="M6 68 C10 40 26 20 60 8" stroke="#C8A762" stroke-width="1"/><ellipse cx="18" cy="44" rx="6" ry="2.4" transform="rotate(-55 18 44)" fill="#D2BD8E"/><ellipse cx="27" cy="31" rx="6" ry="2.4" transform="rotate(-40 27 31)" fill="#D2BD8E"/><ellipse cx="39" cy="20" rx="6" ry="2.4" transform="rotate(-28 39 20)" fill="#D2BD8E"/></svg>
+
+      <div class="envelope-inner">
+        <div class="env-eyebrow">Una pregunta muy especial</div>
+        <svg class="env-monogram" viewBox="0 0 132 132" fill="none" aria-hidden="true">
+          <circle cx="66" cy="66" r="60" stroke="#C8A762" stroke-width="1"/>
+          <circle cx="66" cy="66" r="54" stroke="#D2BD8E" stroke-width=".6" stroke-dasharray="2 4"/>
+          <circle cx="66" cy="66" r="48" fill="#2F4A66"/>
+          <text x="66" y="84" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="54" fill="#F8FAFC">D</text>
+          <g transform="translate(78 30) scale(.42)" fill="#EFE3C2">
+            <path d="M8 30 C18 30 26 24 30 14 C34 22 42 26 52 24 C46 32 36 38 24 38 L10 44 L14 36 C10 35 8 33 8 30Z"/>
+            <path d="M30 14 C28 6 32 0 38 2 C36 6 36 10 38 14Z" opacity=".8"/>
+          </g>
+        </svg>
+        <div class="env-for">Para</div>
+        <div class="env-name madrina">Dora Gutiérrez</div>
+        <div class="env-from">de parte de Emiliano</div>
+        <span class="env-open-btn">Abrir mi carta</span>
+      </div>
+    </div>
+    <div class="ticket-bottom">
+      <span class="ticket-dot" aria-hidden="true"></span>
+      <div class="ticket-info">
+        <div class="ticket-name">Solo para ti</div>
+        <div class="ticket-msg">Ábrela con el corazón</div>
+      </div>
+      <span class="ticket-dot" aria-hidden="true"></span>
+    </div>
+  </button>
+</div>
+
+<!-- ============ CARTA ============ -->
+<main class="invitation" id="invitation">
+  <article class="card">
+
+    <header class="hero">
+      <div class="hero-glow"></div>
+      <svg class="hero-rays" viewBox="0 0 420 300" aria-hidden="true">
+        <g stroke="#fff" stroke-width="1">
+          <line x1="210" y1="40" x2="20" y2="300"/><line x1="210" y1="40" x2="80" y2="300"/><line x1="210" y1="40" x2="140" y2="300"/>
+          <line x1="210" y1="40" x2="210" y2="300"/><line x1="210" y1="40" x2="280" y2="300"/><line x1="210" y1="40" x2="340" y2="300"/><line x1="210" y1="40" x2="400" y2="300"/>
+        </g>
+      </svg>
+      <svg class="hero-dove" viewBox="0 0 74 60" fill="none" aria-hidden="true">
+        <path d="M6 40 C20 40 32 32 37 18 C42 29 54 34 68 31 C60 43 46 50 30 50 L12 58 L17 47 C11 46 6 44 6 40Z" fill="#fff"/>
+        <path d="M37 18 C34 8 39 1 47 3 C44 8 44 13 47 18Z" fill="#EFE3C2"/>
+        <path d="M24 44 C30 43 36 40 40 35" stroke="#C8A762" stroke-width="1"/>
+      </svg>
+      <p class="hero-to">Querida Dora,</p>
+      <h1 class="hero-question">¿Quieres ser<br>mi madrina?</h1>
+      <p class="hero-sign">Con amor, Emiliano</p>
+    </header>
+
+    <section class="carta">
+      <p class="saludo">Hola, Dora:</p>
+      <p>Soy pequeñito, pero ya sé que en mi vida quiero personas buenas, que me cuiden y me enseñen con el ejemplo. Mis papás y yo pensamos en ti desde el primer momento.</p>
+      <p>Me encantaría que me acompañaras el día de mi bautizo y que, desde ese día, seas mi guía en la fe, mi confidente y una de mis personas favoritas para siempre.</p>
+      <p class="firma">Emiliano</p>
+    </section>
+
+    <section class="section respuesta">
+      <div id="preguntaBox">
+        <p class="pregunta">¿Aceptas ser mi madrina?</p>
+        <div class="btns">
+          <button type="button" class="btn-si" onclick="aceptar()">¡Sí, acepto!</button>
+          <button type="button" class="btn-no" id="btnNo" onmouseenter="huir()" onclick="huir()">No</button>
+        </div>
+      </div>
+      <div class="aceptado" id="aceptado">
+        <p class="gracias">¡Gracias, madrina!</p>
+        <p>Acabas de hacer muy feliz a mi familia. Cuéntale a mis papás tu respuesta:</p>
+        <a class="rsvp-btn" id="waBtn" href="#" target="_blank" rel="noopener">Enviar mi respuesta</a>
+      </div>
+    </section>
+
+    <section class="verse">
+      <p>“Dejad que los niños vengan a mí”</p>
+      <cite>Marcos 10:14</cite>
+    </section>
+
+    <!-- EL GRAN DÍA -->
+    <section class="section">
+      <h2 class="section-title">El gran día</h2>
+      <div class="programa">
+        <div class="prog-item">
+          <div class="prog-dot" aria-hidden="true"><span></span></div>
+          <div class="prog-hora">Sábado 14 de noviembre · 11:00 a. m.</div>
+          <div class="prog-titulo">Ceremonia de bautizo</div>
+          <div class="prog-lugar">Parroquia San José<br>Calle 00 # 00-00, Bogotá</div>
+          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Parroquia+San+Jose+Bogota" target="_blank" rel="noopener">
+            <svg width="11" height="14" viewBox="0 0 11 14" fill="none" aria-hidden="true"><path d="M5.5 13 C5.5 13 1 8 1 5 a4.5 4.5 0 0 1 9 0 C10 8 5.5 13 5.5 13Z" stroke="currentColor"/><circle cx="5.5" cy="5" r="1.6" fill="currentColor"/></svg>
+            Ver ubicación
+          </a>
+        </div>
+        <div class="prog-item">
+          <div class="prog-dot" aria-hidden="true"><span></span></div>
+          <div class="prog-hora">1:00 p. m.</div>
+          <div class="prog-titulo">Almuerzo y celebración</div>
+          <div class="prog-lugar">Salón Jardín de los Ángeles<br>Carrera 00 # 00-00, Bogotá</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TU PAPEL -->
+    <section class="section alt">
+      <h2 class="section-title">Tu papel ese día</h2>
+      <div class="roles">
+        <div class="rol">
+          <div class="rol-icon" aria-hidden="true"><svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M8 1 C8 1 5 5 5 7 a3 3 0 0 0 6 0 C11 5 8 1 8 1Z" fill="#C8A762"/><rect x="5.5" y="10" width="5" height="9" rx="1" stroke="#5E7FA0"/></svg></div>
+          <div><p class="rol-title">Encender mi vela</p><p class="rol-text">La luz de Cristo que me acompañará siempre.</p></div>
+        </div>
+        <div class="rol">
+          <div class="rol-icon" aria-hidden="true"><svg width="18" height="16" viewBox="0 0 18 16" fill="none"><path d="M6 1 L1 4 L3 7 L4 6 V15 H14 V6 L15 7 L17 4 L12 1 C11 3 7 3 6 1Z" stroke="#5E7FA0" stroke-linejoin="round"/></svg></div>
+          <div><p class="rol-title">Ponerme la vestidura blanca</p><p class="rol-text">El signo de mi nueva vida en la fe.</p></div>
+        </div>
+        <div class="rol">
+          <div class="rol-icon" aria-hidden="true"><svg width="18" height="16" viewBox="0 0 18 16" fill="none"><path d="M9 15 C9 15 1 10 1 5 a4 4 0 0 1 8 -1 a4 4 0 0 1 8 1 C17 10 9 15 9 15Z" stroke="#5E7FA0"/></svg></div>
+          <div><p class="rol-title">Acompañarme toda la vida</p><p class="rol-text">En las oraciones, los consejos y cada cumpleaños.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VESTIMENTA -->
+    <section class="section">
+      <h2 class="section-title">Para ti, madrina</h2>
+      <p class="dress-text">Nos encantaría que ese día lucieras un tono claro para que combine con mi ropita y las fotos queden preciosas.</p>
+      <div class="swatches" aria-label="Paleta sugerida">
+        <span class="swatch"><i style="background:#DCE8F3"></i>Celeste</span>
+        <span class="swatch"><i style="background:#F2E6D0"></i>Arena</span>
+        <span class="swatch"><i style="background:#F5DEDC"></i>Rosa</span>
+        <span class="swatch"><i style="background:#FFFFFF"></i>Marfil</span>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="section alt" style="border-bottom:none">
+      <h2 class="section-title">Faltan</h2>
+      <div class="countdown">
+        <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-lbl">días</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">horas</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-lbl">min</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">seg</span></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-name" style="font-size:44px">Dora &amp; Emiliano</div>
+      <div class="footer-sub">MADRINA Y AHIJADO · 14.11.2026</div>
+    </footer>
+  </article>
+</main>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+/* ---- Datos editables ---- */
+const FECHA_EVENTO = new Date(2026, 10, 14, 11, 0, 0); // año, mes (0 = enero), día, hora, min
+const WHATSAPP = '570000000000'; // número de los papás, sin + ni espacios
+const MENSAJE = '¡Sí acepto ser la madrina de Emiliano! 💙 — Dora Gutiérrez';
+
+/* ---- Partículas ---- */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.getElementById('particles');
+  const drop = col => `<svg viewBox="0 0 10 14" width="100%" height="100%"><path d="M5 1 C5 1 1 6.5 1 9 a4 4 0 0 0 8 0 C9 6.5 5 1 5 1Z" fill="${col}" opacity=".55"/></svg>`;
+  const star = col => `<svg viewBox="0 0 12 12" width="100%" height="100%"><path d="M6 0 L7 5 L12 6 L7 7 L6 12 L5 7 L0 6 L5 5Z" fill="${col}"/></svg>`;
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('span');
+    p.className = 'particle';
+    const isDrop = i % 3 !== 0;
+    const s = isDrop ? 7 + Math.random() * 7 : 8 + Math.random() * 6;
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.width = s + 'px'; p.style.height = (isDrop ? s * 1.4 : s) + 'px';
+    p.style.animationDuration = 12 + Math.random() * 10 + 's';
+    p.style.animationDelay = '-' + Math.random() * 20 + 's';
+    p.innerHTML = isDrop ? drop(['#8FAFCB','#5E7FA0','#B7CCE0'][i % 3]) : star('#C8A762');
+    c.appendChild(p);
+  }
+})();
+
+document.getElementById('waBtn').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(MENSAJE);
+
+function openEnvelope(){
+  const screen = document.getElementById('envelopeScreen');
+  screen.classList.add('hiding');
+  setTimeout(() => {
+    screen.classList.add('hidden');
+    document.getElementById('invitation').classList.add('visible');
+    window.scrollTo(0, 0);
+  }, 650);
+}
+
+/* El botón "No" se escapa con cariño */
+let intentos = 0;
+const frases = ['No', '¿Segura?', 'Piénsalo 🥺', 'Mejor di que sí', '¡Porfa!'];
+function huir(){
+  const b = document.getElementById('btnNo');
+  intentos++;
+  b.textContent = frases[Math.min(intentos, frases.length - 1)];
+  const x = (Math.random() * 160 - 80), y = (Math.random() * 40 - 20);
+  b.style.transform = `translate(${x}px, ${y}px) scale(${Math.max(0.6, 1 - intentos * 0.1)})`;
+  if (intentos >= 5) b.style.display = 'none';
+}
+
+function aceptar(){
+  document.getElementById('preguntaBox').style.display = 'none';
+  document.getElementById('aceptado').classList.add('show');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.getElementById('confetti');
+  const cols = ['#C8A762','#8FAFCB','#2F4A66','#EFE3C2','#B7CCE0'];
+  for (let i = 0; i < 70; i++) {
+    const e = document.createElement('i');
+    e.style.left = Math.random() * 100 + 'vw';
+    e.style.background = cols[i % cols.length];
+    e.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
+    e.style.animationDelay = Math.random() * 0.6 + 's';
+    c.appendChild(e);
+  }
+  setTimeout(() => c.innerHTML = '', 3600);
+}
+
+function updateCD(){
+  let d = FECHA_EVENTO - new Date();
+  if (d < 0) d = 0;
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('cd-days').textContent  = pad(Math.floor(d / 86400000));
+  document.getElementById('cd-hours').textContent = pad(Math.floor(d % 86400000 / 3600000));
+  document.getElementById('cd-mins').textContent  = pad(Math.floor(d % 3600000 / 60000));
+  document.getElementById('cd-secs').textContent  = pad(Math.floor(d % 60000 / 1000));
+}
+updateCD(); setInterval(updateCD, 1000);
+</script>
+</body>
+</html>
